@@ -30,7 +30,7 @@ class Book
     /**
      * @var Collection<int, category>
      */
-    #[ORM\ManyToMany(targetEntity: category::class, inversedBy: 'category_book')]
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'category_book')]
     private Collection $book_category;
 
     public function __construct()
@@ -99,7 +99,7 @@ class Book
         return $this->book_category;
     }
 
-    public function addBookCategory(category $bookCategory): static
+    public function addBookCategory(Category $bookCategory): static
     {
         if (!$this->book_category->contains($bookCategory)) {
             $this->book_category->add($bookCategory);
@@ -108,7 +108,7 @@ class Book
         return $this;
     }
 
-    public function removeBookCategory(category $bookCategory): static
+    public function removeBookCategory(Category $bookCategory): static
     {
         $this->book_category->removeElement($bookCategory);
 
