@@ -1,35 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des auteurs{% endblock %}
-
 {% block body %}
-    <h1>Liste des auteurs</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+<h1>Liste des auteurs et de leurs livres</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Livres</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
         {% for author in authors %}
             <tr>
                 <td>{{ author.id }}</td>
                 <td>{{ author.name }}</td>
+
                 <td>
-                    <a href="{{ path('app_author_show', {'id': author.id}) }}">show</a>
-                    <a href="{{ path('app_author_edit', {'id': author.id}) }}">edit</a>
+                    {% for book in author.books %}
+                        <div>
+                            <a href="{{ path('app_book_show', {'id': book.id}) }}">
+                                {{ book.title }}
+                            </a>
+                        </div>
+                    {% else %}
+                        <em>Aucun livre</em>
+                    {% endfor %}
+                </td>
+
+                <td>
+                    <a href="{{ path('app_author_show', {'id': author.id}) }}">
+                        Voir
+                    </a>
+                    |
+                    <a href="{{ path('app_author_edit', {'id': author.id}) }}">
+                        Modifier
+                    </a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="4">
+                    Aucun auteur trouvé
+                </td>
             </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
-    <a href="{{ path('app_author_new') }}">Create new</a>
+<br>
+
+<a href="{{ path('app_author_new') }}">
+    + Ajouter un auteur
+</a>
+
 {% endblock %}

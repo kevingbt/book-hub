@@ -3,9 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Book;
+use App\Entity\Author;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class BookType extends AbstractType
 {
@@ -15,6 +17,11 @@ class BookType extends AbstractType
             ->add('title')
             ->add('year')
             ->add('description')
+            ->add('author', EntityType::class, [
+                'class' => Author::class,
+                'choice_label' => 'name',
+                'placeholder' => 'Choisir un auteur'
+            ])
         ;
     }
 

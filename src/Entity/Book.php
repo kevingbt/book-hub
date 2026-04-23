@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\BookRepository;
@@ -24,13 +23,13 @@ class Book
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(inversedBy: 'author_book')]
+    #[ORM\ManyToOne(inversedBy: 'books')]
     private ?Author $book_author = null;
 
     /**
-     * @var Collection<int, category>
+     * @var Collection<int, Category>
      */
-    #[ORM\ManyToMany(targetEntity: category::class, inversedBy: 'category_book')]
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'category_book')]
     private Collection $book_category;
 
     public function __construct()
@@ -51,7 +50,6 @@ class Book
     public function setTitle(string $title): static
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -63,7 +61,6 @@ class Book
     public function setYear(int $year): static
     {
         $this->year = $year;
-
         return $this;
     }
 
@@ -75,7 +72,6 @@ class Book
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -87,31 +83,28 @@ class Book
     public function setBookAuthor(?Author $book_author): static
     {
         $this->book_author = $book_author;
-
         return $this;
     }
 
     /**
-     * @return Collection<int, category>
+     * @return Collection<int, Category>
      */
     public function getBookCategory(): Collection
     {
         return $this->book_category;
     }
 
-    public function addBookCategory(category $bookCategory): static
+    public function addBookCategory(Category $bookCategory): static
     {
         if (!$this->book_category->contains($bookCategory)) {
             $this->book_category->add($bookCategory);
         }
-
         return $this;
     }
 
-    public function removeBookCategory(category $bookCategory): static
+    public function removeBookCategory(Category $bookCategory): static
     {
         $this->book_category->removeElement($bookCategory);
-
         return $this;
     }
 }

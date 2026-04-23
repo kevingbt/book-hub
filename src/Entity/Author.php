@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\AuthorRepository;
@@ -21,12 +20,12 @@ class Author
     /**
      * @var Collection<int, Book>
      */
-    #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'book_author')]
-    private Collection $author_book;
+    #[ORM\OneToMany(mappedBy: 'book_author', targetEntity: Book::class, cascade: ['persist', 'remove'])]
+    private Collection $books;
 
     public function __construct()
     {
-        $this->author_book = new ArrayCollection();
+        $this->books = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -42,37 +41,33 @@ class Author
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
     /**
      * @return Collection<int, Book>
      */
-    public function getAuthorBook(): Collection
+    public function getBooks(): Collection
     {
-        return $this->author_book;
+        return $this->books;
     }
 
-    public function addAuthorBook(Book $authorBook): static
+    public function addBook(Book $book): static
     {
-        if (!$this->author_book->contains($authorBook)) {
-            $this->author_book->add($authorBook);
-            $authorBook->setBookAuthor($this);
+        if (!$this->books->contains($book)) {
+            $this->books->add($book);
+            $book->setBookAuthor($this);
         }
-
         return $this;
     }
 
-    public function removeAuthorBook(Book $authorBook): static
+    public function removeBook(Book $book): static
     {
-        if ($this->author_book->removeElement($authorBook)) {
-            // set the owning side to null (unless already changed)
-            if ($authorBook->getBookAuthor() === $this) {
-                $authorBook->setBookAuthor(null);
+        if ($this->books->removeElement($book)) {
+            if ($book->getBookAuthor() === $this) {
+                $book->setBookAuthor(null);
             }
         }
-
         return $this;
     }
 }
