@@ -1,0 +1,10 @@
+<div class="bg-teal-900 p-5 flex gap-10 align-items-center">
+	<p class="text-xl font-bold mb-4 text-white">Book-Hub</p>
+	<ul class="list-unstyled flex gap-4 text-white">
+		<li><a class="flex items-center gap-2" href="{{ path('accueil') }}"> Accueil</a></li>
+		{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+        {% endif %}
+		<li><a class="flex items-center gap-2" href="{{ path('app_book_index') }}"> Livres</a></li>
+		<li><a class="flex items-center gap-2" href="{{ path('app_author_index') }}"> Auteurs</a></li>
+	</ul>
+</div>
