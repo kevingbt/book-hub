@@ -2,60 +2,63 @@
 
 {% block body %}
 
-<h1>Liste des auteurs et de leurs livres</h1>
+	<h1>Liste des auteurs et de leurs livres</h1>
 
-<table>
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Nom</th>
-            <th>Livres</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
+	<table>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Nom</th>
+				<th>Livres</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
 
-    <tbody>
-        {% for author in authors %}
-            <tr>
-                <td>{{ author.id }}</td>
-                <td>{{ author.name }}</td>
+		<tbody>
+			{% for author in authors %}
+				<tr>
+					<td>{{ author.id }}</td>
+					<td>{{ author.name }}</td>
 
-                <td>
-                    {% for book in author.books %}
-                        <div>
-                            <a href="{{ path('app_book_show', {'id': book.id}) }}">
-                                {{ book.title }}
-                            </a>
-                        </div>
-                    {% else %}
-                        <em>Aucun livre</em>
-                    {% endfor %}
-                </td>
+					<td>
+						{% for book in author.books %}
+							<div>
+								<a href="{{ path('app_book_show', {'id': book.id}) }}">
+									{{ book.title }}
+								</a>
+							</div>
+						{% else %}
+							<em>Aucun livre</em>
+						{% endfor %}
+					</td>
 
-                <td>
-                    <a href="{{ path('app_author_show', {'id': author.id}) }}">
-                        Voir
-                    </a>
-                    |
-                    <a href="{{ path('app_author_edit', {'id': author.id}) }}">
-                        Modifier
-                    </a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">
-                    Aucun auteur trouvé
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+					<td>
+						<a href="{{ path('app_author_show', {'id': author.id}) }}">
+							Voir
+						</a>
+						{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+							|
 
-<br>
+							<a href="{{ path('app_author_edit', {'id': author.id}) }}">
+								Modifier
+							</a>
+						{% endif %}
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="4">
+						Aucun auteur trouvé
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
-<a href="{{ path('app_author_new') }}">
-    + Ajouter un auteur
-</a>
-
+	<br>
+	{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+		<a href="{{ path('app_author_new') }}">
+			+ Ajouter un auteur
+		</a>
+	{% endif %}
 {% endblock %}

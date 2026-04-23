@@ -1,43 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Book index{% endblock %}
+{% block title %}Book index
+{% endblock %}
 
 {% block body %}
-    <h1>Book index</h1>
+	<h1>Liste des livres</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                {# <th>Id</th> #}
-                <th>Title</th>
-                <th>Year</th>
-                {# <th>Description</th> #}
-                <th>Auteurs</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for book in books %}
-            <tr>
-                {# <td>{{ book.id }}</td> #}
-                <td>{{ book.title }}</td>
-                <td>{{ book.year }}</td>
-                {# <td>{{ book.description }}</td> #}
-                <td>
-                    {{ book.bookAuthor.name ?? "Pas d'auteur" }}
-                </td>
-                <td>
-                    <a href="{{ path('app_book_show', {'id': book.id}) }}">show</a>
-                    <a href="{{ path('app_book_edit', {'id': book.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<table class="table">
+		<thead>
+			<tr>
+				{# <th>Id</th> #}
+				<th>Title</th>
+				<th>Year</th>
+				{# <th>Description</th> #}
+				<th>Auteurs</th>
+				{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+					<th>actions</th>
+				{% endif %}
+			</tr>
+		</thead>
+		<tbody>
+			{% for book in books %}
+				<tr>
+					{# <td>{{ book.id }}</td> #}
+					<td>{{ book.title }}</td>
+					<td>{{ book.year }}</td>
+					{# <td>{{ book.description }}</td> #}
+					<td>
+						{{ book.bookAuthor.name ?? "Pas d'auteur" }}
+					</td>
+					{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
 
-    <a href="{{ path('app_book_new') }}">Create new</a>
+						<td>
+							<a href="{{ path('app_book_show', {'id': book.id}) }}">show</a>
+							<a href="{{ path('app_book_edit', {'id': book.id}) }}">edit</a>
+						</td>
+					{% endif %}
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+		<a href="{{ path('app_book_new') }}">Create new</a>
+	{% endif %}
 {% endblock %}
