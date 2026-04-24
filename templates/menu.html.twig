@@ -1,16 +1,49 @@
-<div class="bg-teal-900 p-5 flex gap-10 align-items-center">
-	<p class="text-xl font-bold mb-4 text-white">Book-Hub</p>
-	<ul class="list-unstyled flex gap-4 text-white">
-		<li><a class="flex items-center gap-2" href="{{ path('accueil') }}"> Accueil</a></li>
-		{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
-        {% endif %}
-		<li><a class="flex items-center gap-2" href="{{ path('app_book_index') }}"> Livres</a></li>
-		<li><a class="flex items-center gap-2" href="{{ path('app_author_index') }}"> Auteurs</a></li>
-		{% if app.user %}
-			<li><a class="flex items-center gap-2" href="{{ path('app_logout') }}"> Déconnexion</a></li>
-		{% else %}
-			<li><a class="flex items-center gap-2" href="{{ path('app_login') }}"> Connexion</a></li>
-			<li><a class="flex items-center gap-2" href="{{ path('app_register') }}"> Inscription</a></li>
-		{% endif %}
-	</ul>
-</div>
+<header class="bg-teal-800 text-white shadow-md">
+	<div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+
+		<!-- Logo -->
+		<a href="{{ path('accueil') }}" class="text-2xl font-bold tracking-wide hover:text-teal-300 transition">
+			Book-Hub
+		</a>
+
+		<!-- Navigation -->
+		<nav>
+			<ul class="flex items-center gap-6 text-sm font-medium">
+
+				<li>
+					<a class="hover:text-teal-300 transition" href="{{ path('accueil') }}">Accueil</a>
+				</li>
+
+				<li>
+					<a class="hover:text-teal-300 transition" href="{{ path('app_book_index') }}">Livres</a>
+				</li>
+
+				<li>
+					<a class="hover:text-teal-300 transition" href="{{ path('app_author_index') }}">Auteurs</a>
+				</li>
+
+				{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+					<li>
+						<a class="px-3 py-1 rounded bg-teal-700 hover:bg-teal-600 transition" href="#">Admin</a>
+					</li>
+				{% endif %}
+
+				{% if app.user %}
+					<li>
+						<a class="hover:text-red-300 transition" href="{{ path('app_logout') }}">Déconnexion</a>
+					</li>
+				{% else %}
+					<li>
+						<a class="hover:text-teal-300 transition" href="{{ path('app_login') }}">Connexion</a>
+					</li>
+					<li>
+						<a class="px-3 py-1 rounded bg-white text-teal-900 hover:bg-gray-200 transition transform hover:-translate-y-1 hover:shadow-lg"
+						href="{{ path('app_register') }}">Inscription</a>
+					</li>
+				{% endif %}
+
+			</ul>
+		</nav>
+
+	</div>
+</header>

@@ -2,63 +2,89 @@
 
 {% block body %}
 
-	<h1>Liste des auteurs et de leurs livres</h1>
+<div class="max-w-7xl mx-auto px-6 py-10">
 
-	<table>
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>Nom</th>
-				<th>Livres</th>
-				<th>Actions</th>
-			</tr>
-		</thead>
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">
+        Liste des auteurs et de leurs livres
+    </h1>
 
-		<tbody>
-			{% for author in authors %}
-				<tr>
-					<td>{{ author.id }}</td>
-					<td>{{ author.name }}</td>
+    <div class="overflow-x-auto bg-white shadow-md rounded-xl">
 
-					<td>
-						{% for book in author.books %}
-							<div>
-								<a href="{{ path('app_book_show', {'id': book.id}) }}">
-									{{ book.title }}
-								</a>
-							</div>
-						{% else %}
-							<em>Aucun livre</em>
-						{% endfor %}
-					</td>
+        <table class="min-w-full text-sm text-left">
 
-					<td>
-						<a href="{{ path('app_author_show', {'id': author.id}) }}">
-							Voir
-						</a>
-						{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
-							|
+            <thead class="bg-slate-100 text-gray-700 uppercase text-xs">
+                <tr>
+                    <th class="px-6 py-3">Nom</th>
+                    <th class="px-6 py-3">Livres</th>
+                    <th class="px-6 py-3">Actions</th>
+                </tr>
+            </thead>
 
-							<a href="{{ path('app_author_edit', {'id': author.id}) }}">
-								Modifier
-							</a>
-						{% endif %}
-					</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="4">
-						Aucun auteur trouvé
-					</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+            <tbody class="divide-y divide-gray-200">
 
-	<br>
-	{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
-		<a href="{{ path('app_author_new') }}">
-			+ Ajouter un auteur
-		</a>
-	{% endif %}
+                {% for author in authors %}
+                    <tr class="hover:bg-slate-50 transition">
+
+
+
+                        <td class="px-6 py-4 font-medium text-gray-800">
+                            {{ author.name }}
+                        </td>
+
+                        <td class="px-6 py-4 space-y-1">
+
+                            {% for book in author.books %}
+                                <a href="{{ path('app_book_show', {'id': book.id}) }}"
+                                   class="block text-teal-700 hover:underline">
+                                    {{ book.title }}
+                                </a>
+                            {% else %}
+                                <span class="text-gray-400 italic">Aucun livre</span>
+                            {% endfor %}
+
+                        </td>
+
+                        <td class="px-6 py-4 space-x-2">
+
+                            <a href="{{ path('app_author_show', {'id': author.id}) }}"
+                               class="text-blue-600 hover:underline">
+                                Voir
+                            </a>
+
+                            {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                                <a href="{{ path('app_author_edit', {'id': author.id}) }}"
+                                   class="text-amber-600 hover:underline">
+                                    Modifier
+                                </a>
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="px-6 py-6 text-center text-gray-500">
+                            Aucun auteur trouvé
+                        </td>
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+        <div class="mt-6">
+            <a href="{{ path('app_author_new') }}"
+               class="inline-block bg-[#0f4c5c] text-white px-4 py-2 rounded-lg
+                      hover:bg-[#126782] transition transform hover:-translate-y-0.5">
+                + Ajouter un auteur
+            </a>
+        </div>
+    {% endif %}
+
+</div>
+
 {% endblock %}

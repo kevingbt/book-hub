@@ -1,50 +1,90 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Book index
-{% endblock %}
+{% block title %}Book index{% endblock %}
 
 {% block body %}
-	<h1>Liste des livres</h1>
 
-	<table class="table">
-		<thead>
-			<tr>
-				{# <th>Id</th> #}
-				<th>Title</th>
-				<th>Year</th>
-				{# <th>Description</th> #}
-				<th>Auteurs</th>
-				{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
-					<th>actions</th>
-				{% endif %}
-			</tr>
-		</thead>
-		<tbody>
-			{% for book in books %}
-				<tr>
-					{# <td>{{ book.id }}</td> #}
-					<td>{{ book.title }}</td>
-					<td>{{ book.year }}</td>
-					{# <td>{{ book.description }}</td> #}
-					<td>
-						{{ book.bookAuthor.name ?? "Pas d'auteur" }}
-					</td>
-					{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+<div class="max-w-7xl mx-auto px-6 py-10">
 
-						<td>
-							<a href="{{ path('app_book_show', {'id': book.id}) }}">show</a>
-							<a href="{{ path('app_book_edit', {'id': book.id}) }}">edit</a>
-						</td>
-					{% endif %}
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="5">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-	{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
-		<a href="{{ path('app_book_new') }}">Create new</a>
-	{% endif %}
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">
+         Liste des livres
+    </h1>
+
+    <div class="overflow-x-auto bg-white shadow-md rounded-xl">
+
+        <table class="min-w-full text-sm text-left">
+
+            <thead class="bg-slate-100 text-gray-700 uppercase text-xs">
+                <tr>
+                    <th class="px-6 py-3">Titre</th>
+                    <th class="px-6 py-3">Année</th>
+                    <th class="px-6 py-3">Auteur</th>
+
+                    {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                        <th class="px-6 py-3">Actions</th>
+                    {% endif %}
+                </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-200">
+
+                {% for book in books %}
+                    <tr class="hover:bg-slate-50 transition">
+
+                        <td class="px-6 py-4 font-medium text-gray-800">
+                            {{ book.title }}
+                        </td>
+
+                        <td class="px-6 py-4 text-gray-600">
+                            {{ book.year }}
+                        </td>
+
+                        <td class="px-6 py-4 text-gray-600">
+                            {{ book.bookAuthor.name ?? "Pas d'auteur" }}
+                        </td>
+
+                        {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                            <td class="px-6 py-4 space-x-3">
+
+                                <a href="{{ path('app_book_show', {'id': book.id}) }}"
+                                   class="text-blue-600 hover:underline">
+                                    Voir
+                                </a>
+
+                                <a href="{{ path('app_book_edit', {'id': book.id}) }}"
+                                   class="text-amber-600 hover:underline">
+                                    Modifier
+                                </a>
+
+                            </td>
+                        {% endif %}
+
+                    </tr>
+
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="px-6 py-6 text-center text-gray-500">
+                            Aucun livre trouvé
+                        </td>
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+        <div class="mt-6">
+            <a href="{{ path('app_book_new') }}"
+               class="inline-block bg-[#0f4c5c] text-white px-4 py-2 rounded-lg
+                      hover:bg-[#126782] transition transform hover:-translate-y-0.5">
+                + Ajouter un livre
+            </a>
+        </div>
+    {% endif %}
+
+</div>
+
 {% endblock %}
