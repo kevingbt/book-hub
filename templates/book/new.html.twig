@@ -3,9 +3,28 @@
 {% block title %}New Book{% endblock %}
 
 {% block body %}
-    <h1>Create new Book</h1>
 
-    {{ include('book/_form.html.twig') }}
+<div class="max-w-3xl mx-auto px-6 py-10">
 
-    <a href="{{ path('app_book_index') }}">back to list</a>
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">
+         Ajouter un nouveau livre
+    </h1>
+
+    <div class="bg-white shadow-md rounded-xl p-6">
+
+        {{ include('book/_form.html.twig') }}
+
+    </div>
+
+    <div class="mt-6">
+
+        <a href="{{ path('app_book_index') }}"
+           class="text-gray-600 hover:text-gray-800 hover:underline">
+            ← Retour à la liste
+        </a>
+
+    </div>
+
+</div>
+
 {% endblock %}

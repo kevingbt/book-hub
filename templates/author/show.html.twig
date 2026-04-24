@@ -3,24 +3,65 @@
 {% block title %}Author{% endblock %}
 
 {% block body %}
-    <h1>Author</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ author.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ author.name }}</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="max-w-3xl mx-auto px-6 py-10">
 
-    <a href="{{ path('app_author_index') }}">back to list</a>
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">
+         Détail de l'auteur : {{ author.name }}
+    </h1>
 
-    <a href="{{ path('app_author_edit', {'id': author.id}) }}">edit</a>
+    <div class="bg-white shadow-md rounded-xl overflow-hidden">
 
-    {{ include('author/_delete_form.html.twig') }}
+        <table class="min-w-full text-sm text-left">
+
+            <tbody class="divide-y divide-gray-200">
+
+                <tr>
+                    <th class="px-6 py-4 bg-slate-50 text-gray-700 w-1/3">
+                        Id
+                    </th>
+                    <td class="px-6 py-4 text-gray-600">
+                        {{ author.id }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="px-6 py-4 bg-slate-50 text-gray-700">
+                        Nom
+                    </th>
+                    <td class="px-6 py-4 text-gray-800 font-medium">
+                        {{ author.name }}
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="mt-6 flex items-center justify-between">
+
+        <a href="{{ path('app_author_index') }}"
+           class="text-gray-600 hover:text-gray-800 hover:underline">
+            ← Retour à la liste
+        </a>
+
+        <div class="flex items-center gap-4">
+
+            <a href="{{ path('app_author_edit', {'id': author.id}) }}"
+               class="text-amber-600 hover:underline">
+                Modifier
+            </a>
+
+            <div>
+                {{ include('author/_delete_form.html.twig') }}
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 {% endblock %}
