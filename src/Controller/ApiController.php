@@ -39,7 +39,9 @@ class ApiController extends AbstractController
     {
         $book = $bookRepository->find($id);
 
-
+        if (!$book) {
+            throw $this->createNotFoundException('Le livre demandé n\'existe pas.');
+        }
 
         return $this->json([
             'id' => $book->getId(),
