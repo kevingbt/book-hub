@@ -1,56 +1,89 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Book
-{% endblock %}
+{% block title %}Book{% endblock %}
 
 {% block body %}
-	<h1>Détail du livre
-		{{ book.title }}</h1>
 
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Id</th>
-				<td>{{ book.id }}</td>
-			</tr>
-			<tr>
-				<th>Title</th>
-				<td>{{ book.title }}</td>
-			</tr>
-			<tr>
-				<th>Year</th>
-				<td>{{ book.year }}</td>
-			</tr>
-			<tr>
-				<th>Description</th>
-				<td>{{ book.description }}</td>
-			</tr>
-			<tr>
-				<th>Auteur</th>
-				<td>
-					{{ book.bookAuthor.name ?? "Pas d'auteur" }}
-				</td>
-			</tr>
-			<tr>
-				<th>Categories</th>
-				<td>
-					{% for category in book.bookCategory %}
-						{{ category.name }}
-						{% if not loop.last %},
-						{% endif %}
-					{% else %}
-						Pas de catégorie
-					{% endfor %}
-				</td>
-			</tr>
-		</tbody>
-	</table>
+<div class="max-w-4xl mx-auto px-6 py-10">
 
-	<a href="{{ path('app_book_index') }}">back to list</a>
-	{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">
+         Détail du livre : {{ book.title }}
+    </h1>
 
-		<a href="{{ path('app_book_edit', {'id': book.id}) }}">edit</a>
+    <div class="bg-white shadow-md rounded-xl overflow-hidden">
 
-		{{ include('book/_delete_form.html.twig') }}
-	{% endif %}
+        <table class="min-w-full text-sm text-left">
+
+            <tbody class="divide-y divide-gray-200">
+
+                <tr>
+                    <th class="px-6 py-4 bg-slate-50 text-gray-700 w-1/3">Id</th>
+                    <td class="px-6 py-4 text-gray-600">{{ book.id }}</td>
+                </tr>
+
+                <tr>
+                    <th class="px-6 py-4 bg-slate-50 text-gray-700">Titre</th>
+                    <td class="px-6 py-4 text-gray-800 font-medium">{{ book.title }}</td>
+                </tr>
+
+                <tr>
+                    <th class="px-6 py-4 bg-slate-50 text-gray-700">Année</th>
+                    <td class="px-6 py-4 text-gray-600">{{ book.year }}</td>
+                </tr>
+
+                <tr>
+                    <th class="px-6 py-4 bg-slate-50 text-gray-700">Description</th>
+                    <td class="px-6 py-4 text-gray-600">
+                        {{ book.description ?: "Aucune description" }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="px-6 py-4 bg-slate-50 text-gray-700">Auteur</th>
+                    <td class="px-6 py-4 text-gray-600">
+                        {{ book.bookAuthor.name ?? "Pas d'auteur" }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="px-6 py-4 bg-slate-50 text-gray-700">Catégories</th>
+                    <td class="px-6 py-4 text-gray-600">
+                        {% for category in book.bookCategory %}
+                            {{ category.name }}{% if not loop.last %}, {% endif %}
+                        {% else %}
+                            Pas de catégorie
+                        {% endfor %}
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="mt-6 flex items-center gap-4">
+
+        <a href="{{ path('app_book_index') }}"
+           class="text-gray-600 hover:text-gray-800 hover:underline">
+            ← Retour à la liste
+        </a>
+
+        {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+
+            <a href="{{ path('app_book_edit', {'id': book.id}) }}"
+               class="text-amber-600 hover:underline">
+                Modifier
+            </a>
+
+            <div>
+                {{ include('book/_delete_form.html.twig') }}
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
 {% endblock %}
